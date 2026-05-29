@@ -1,0 +1,12 @@
+The app needs to classify customer tickets (issue type, priority, summarize, customer intent,
+generate response to user)
+
+Examples of issue types:
+
+- Billing/payment problem
+- Login or authentication issue
+- Bug report
+- Feature request
+- Account issue
+- Technical issue
+- General inquiry
