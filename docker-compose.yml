@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./api:/api
+    depends_on:
+      - db
+    networks:
+      - ai-support-network
+
+  db:
+    image: postgres:18
+    environment:
+      - POSTGRES_USER=ai-support
+      - POSTGRES_PASSWORD=ai-support
+      - POSTGRES_DB=ai-support
+    volumes:
+      - db_data:/var/lib/postgresql
+    ports:
+      - "5433:5432"
+    networks:
+      - ai-support-network
+
+
+networks:
+  ai-support-network:
+    driver: bridge
+
+volumes:
+  db_data:
+
