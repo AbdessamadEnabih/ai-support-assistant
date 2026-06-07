@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from .enum import CategoryEnum, PriorityEnum, SentimentEnum
+from ..enum import CategoryEnum, PriorityEnum, SentimentEnum
 
 
 class Ticket(BaseModel):

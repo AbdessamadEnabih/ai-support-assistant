@@ -8,10 +8,6 @@ import json
 load_dotenv()
 
 
-from enum import Enum
-from pydantic import BaseModel, Field
-
-
 class CategoryEnum(str, Enum):
     billing = "billing"
     authentication = "authentication"
@@ -42,7 +38,9 @@ class TicketClassification(BaseModel):
     priority: PriorityEnum
     sentiment: SentimentEnum
     summary: str = Field(description="One-sentence problem summary.")
-    response_draft: str = Field(description="A short, max 2-sentence reply to the client.")
+    response_draft: str = Field(
+        description="A short, max 2-sentence reply to the client."
+    )
 
 
 MODEL = "gemma-fast"
@@ -50,6 +48,7 @@ MODEL = "gemma-fast"
 SYSTEM_PROMPT = "You are a precise support assistant backend. Your job is to categorize tickets into JSON format."
 
 client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
+
 
 @observe()
 def classify_ticket(prompt):
@@ -61,7 +60,7 @@ def classify_ticket(prompt):
         ],
         response_format=TicketClassification,
         temperature=0.1,
-        max_tokens=2000
+        max_tokens=2000,
     )
 
     response_text = completion.choices[0].message.content
