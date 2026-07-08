@@ -1,9 +1,10 @@
 from database import Base
-from sqlalchemy.orm import Mapped, mapped_column, column_property
+from sqlalchemy.orm import Mapped, mapped_column, column_property, relationship
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy import String, event
 from typing import Optional
 import bcrypt
+from .associations import user_roles
 
 
 class User(Base):
@@ -34,6 +35,10 @@ class User(Base):
 
     def check_password(self, plaintext_password: str) -> bool:
         return bcrypt.checkpw(plaintext_password.encode("utf-8"), self._password_hash)
-    
+
     def __repr__(self):
         return f"User(id={self.id!r}, name={self.fullname!r}, email={self.email!r})"
+
+    roles: Mapped[list["Role"]] = relationship(
+        secondary=user_roles, back_populates="users"
+    )
